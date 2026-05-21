@@ -1,7 +1,6 @@
 # Hermes Case Study: Deep Findings, Concepts, and Reuse Guide
 
 > **Purpose:** A deep, long‑form analysis of the Hermes Agent codebase for reuse in a memory‑ and empathy‑focused AI companion.  
-> **Repo:** `/home/runner/work/hermes-case-study/hermes-case-study`  
 > **Focus:** memory, user modeling, empathy‑oriented behaviors, and the supporting systems that make those reliable.
 
 ---
@@ -59,6 +58,11 @@ For a memory‑ and empathy‑focused companion, the most reusable concepts are:
 ---
 
 ## Methodology and Sources
+
+### Path notation
+All repository paths below are **absolute paths from this analysis environment**.  
+Repo root used for those paths: `/home/runner/work/hermes-case-study/hermes-case-study`.  
+If you are browsing the repo elsewhere, strip that prefix to get the repo‑relative path.
 
 Primary sources referenced in this report (all paths are absolute, per repo context requirement):
 
@@ -140,8 +144,10 @@ Hermes defines two bounded stores:
 
 | Store | File | Purpose | Limit |
 |---|---|---|---|
-| MEMORY | `/home/runner/work/hermes-case-study/hermes-case-study/` + `~/.hermes/memories/MEMORY.md` | Agent’s observations about environment and project | 2,200 chars |
-| USER | `/home/runner/work/hermes-case-study/hermes-case-study/` + `~/.hermes/memories/USER.md` | User profile/preferences/expectations | 1,375 chars |
+| MEMORY | `~/.hermes/memories/MEMORY.md` | Agent’s observations about environment and project | 2,200 chars |
+| USER | `~/.hermes/memories/USER.md` | User profile/preferences/expectations | 1,375 chars |
+
+These files are profile‑aware via `get_hermes_home()` in `/home/runner/work/hermes-case-study/hermes-case-study/hermes_constants.py`.
 
 **Key design choices:**
 
@@ -487,7 +493,7 @@ Hermes has a plugin ecosystem:
 ### Memory provider plugin structure (how to reuse)
 From `/home/runner/work/hermes-case-study/hermes-case-study/website/docs/developer-guide/memory-provider-plugin.md`:
 
-```
+```text
 plugins/memory/<name>/
 ├── __init__.py      # MemoryProvider implementation
 ├── plugin.yaml      # Metadata (name, description, hooks)
